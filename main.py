@@ -12,3 +12,11 @@ def read_root():
 @app.get("/items/{item_id}")
 def read_item(item_id: int, q: Union[str, None] = None):
     return {"item_id": item_id, "q": q}
+
+@app.get("/ok")
+async def ok_endpoint():
+    return {"message": "ok"}
+
+@app.get("/hello")
+async def hello_endpoint(name:str = 'world'):
+    return {"message": f"hello {name}"}
