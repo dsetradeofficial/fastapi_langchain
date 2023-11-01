@@ -4,7 +4,7 @@ from pydantic import BaseModel
 
 app = FastAPI()
 
-class Product(BaseModel):
+class Order(BaseModel):
     product:str
     units:int
 
@@ -28,3 +28,7 @@ async def hello_endpoint(name:str = 'world'):
 @app.post("/orders")
 async def place_order(product:str,units:int):
     return {"message": f"Order for {units} of {product} placed successfully"}
+
+@app.post("/orders_pyddantic")
+async def place_order(order:Order):
+    return {"message": f"Order for {order.units} of {order.product} placed successfully"}
