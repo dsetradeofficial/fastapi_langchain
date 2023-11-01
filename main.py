@@ -1,8 +1,12 @@
 from typing import Union
 from fastapi import FastAPI
+from pydantic import BaseModel
 
 app = FastAPI()
 
+class Product(BaseModel):
+    product:str
+    units:int
 
 @app.get("/")
 def read_root():
@@ -20,3 +24,7 @@ async def ok_endpoint():
 @app.get("/hello")
 async def hello_endpoint(name:str = 'world'):
     return {"message": f"hello {name}"}
+
+@app.post("/orders")
+async def place_order(product:str,units:int):
+    return {"message": f"Order for {units} of {product} placed successfully"}
