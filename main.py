@@ -1,12 +1,17 @@
 from typing import Union
 from fastapi import FastAPI
 from pydantic import BaseModel
+from utils import generate_description
 
 app = FastAPI()
 
 class Order(BaseModel):
     product:str
     units:int
+
+class Product(BaseModel):
+    name:str
+    notes:str
 
 @app.get("/")
 def read_root():
@@ -32,3 +37,8 @@ async def place_order(product:str,units:int):
 @app.post("/orders_pyddantic")
 async def place_order(order:Order):
     return {"message": f"Order for {order.units} of {order.product} placed successfully"}
+
+@app.post("/product_description")
+async def generate_product_description(product:Product):
+    description = generate_description(f"Product name: {product.name}, Notes: {product.notes}")
+    return {"product_description": description}
